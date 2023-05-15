@@ -1,0 +1,14 @@
+file -> video (encode)
+video -> file (decode)
+
+form of video:
+    black and white pixels, not strict on frame rate, but really large pixel map to
+    store information. 
+
+    720p (1280 x 720)video, (640 x 360) pixel map.
+
+    black is 0, white is 1.
+
+    2 frames of the same pixel map in a row.
+
+    An image of 565KB will be encoded into 19 frames, which will be 38 frames in the video, which is approximately 1 second
