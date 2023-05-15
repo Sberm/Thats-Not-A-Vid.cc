@@ -1,5 +1,8 @@
 # build folder
 build
 
-# output
+# output folder
 output
+
+# decoded folder
+decoded
