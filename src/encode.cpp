@@ -16,7 +16,7 @@ void set_pixel(int i, int j, unsigned char* buffer_frame, bool bit) {
     int row = FRAME_SIZE.width;
     int up_left = (i * row + j) * 2 * 3;
 
-    if (bit) {
+    if (!bit) {
         buffer_frame[up_left + 0] = (unsigned char)0;
         buffer_frame[up_left + 1] = (unsigned char)0;
         buffer_frame[up_left + 2] = (unsigned char)0;
@@ -72,7 +72,7 @@ void writeFrame(cv::VideoWriter &outputVideo, char *buffer, int length) {
         for (int j = 0; j < 8; j++) {
             int px = index / 640;
             int py = index % 640;
-            set_pixel(px, py, buffer_frame, get_bit(c, j));
+            set_pixel(px, py, buffer_frame, get_bit(c, 7 - j));
             index++;
         }
         if (index >= mat_size) {
@@ -88,8 +88,6 @@ void writeFrame(cv::VideoWriter &outputVideo, char *buffer, int length) {
     }
 
     if (index >= 1) {
-        // TODO: clear the buffer_frame before write
-        std::cout << "not full" << "index = " << index << std::endl;
         index = 0;
         cv::Mat frame = cv::Mat(FRAME_SIZE, CV_8UC3, buffer_frame);
         // write 2 frames
@@ -114,12 +112,6 @@ void encode(std::string path) {
     printf("Reading data from %s\n", path.c_str());
     file.read(buffer, length);
 
-    if (file)
-      std::cout << "all characters read successfully.";
-    else
-      std::cout << "error: only " << file.gcount() << " could be read";
-    file.close();
-
     // encode
     cv::Mat src;
     cv::VideoWriter outputVideo;
@@ -135,7 +127,11 @@ void encode(std::string path) {
 
     writeFrame(outputVideo, buffer, length);
 
-    std::cout << "Finished writing" << std::endl;
+    // print complete
+    std::cout
+    << "\x1b[1A"
+    << "\x1b[K"
+    << "Encoding complete" << std::endl;
 
     // delete buffer
     delete[] buffer; 

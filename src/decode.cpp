@@ -25,7 +25,7 @@ char create_byte(int x, int y, unsigned char* buffer) {
     return c;
 }
 
-void decode(std::string path = "../output/output.mp4") {
+void decode(std::string path) {
     // read video
     cv::VideoCapture input_video(path);
 
@@ -69,7 +69,7 @@ void decode(std::string path = "../output/output.mp4") {
         }
     }
 
-    std::cout << "how many KB: " << count_write / 1000 << std::endl;
+    std::cout << "Decoded file size: " << count_write / 1000 << std::endl;
 
     file.close();
     input_video.release();

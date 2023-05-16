@@ -6,3 +6,6 @@ output
 
 # decoded folder
 decoded
+
+.vscode
+.DS_Store
