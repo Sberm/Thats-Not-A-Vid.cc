@@ -7,5 +7,6 @@ output
 # decoded folder
 decoded
 
+# dot file
 .vscode
 .DS_Store
