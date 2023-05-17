@@ -102,6 +102,10 @@ void encode(std::string path) {
 
     // read file
     std::ifstream file(path, std::ifstream::binary);
+    if (!file.is_open()) {
+        printf("Can't open file: %s\n",path.c_str());
+        return;
+    }
 
     // get length of file:
     file.seekg (0, file.end);
