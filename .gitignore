@@ -3,9 +3,11 @@ build
 
 # output folder
 output/*
+!output/.placeholder
 
 # decoded folder
 decoded/*
+!decoded/.placeholder
 
 # dot file
 .vscode
