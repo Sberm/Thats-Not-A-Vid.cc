@@ -2,10 +2,10 @@
 build
 
 # output folder
-output
+output/*
 
 # decoded folder
-decoded
+decoded/*
 
 # dot file
 .vscode
