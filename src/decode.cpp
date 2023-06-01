@@ -30,7 +30,7 @@ void decode(std::string path) {
     cv::VideoCapture input_video(path);
 
     // create new file
-    std::string decoded_path = "../decoded/output_file.png";
+    std::string decoded_path = "../decoded/foo.bar";
     std::ofstream file(decoded_path, std::ofstream::binary);
     if (!file.is_open()) {
         printf("Path %s doesn't exit\n", decoded_path.c_str());
@@ -58,10 +58,8 @@ void decode(std::string path) {
         }
         cv::split(frame, spl);
 
-        // std::cout << spl[0].rows << "x" << spl[0].cols << std::endl;
 
         for (int i = 0; i < col * row; i += 8) {
-
             char c = create_byte(i / col, i % col, spl[0].data);
 
             file.write(&c, sizeof c);

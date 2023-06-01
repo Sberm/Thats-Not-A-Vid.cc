@@ -98,6 +98,12 @@ void writeFrame(cv::VideoWriter &outputVideo, char *buffer, int length) {
     delete[] buffer_frame;
 }
 
+std::string get_file_name(std::string path) {
+    size_t start;
+    start = path.find_last_of("/");
+    return path.substr(start, std::string::npos - start);
+}
+
 void encode(std::string path) {
 
     // read file
@@ -107,13 +113,22 @@ void encode(std::string path) {
         return;
     }
 
+
     // get length of file:
     file.seekg (0, file.end);
     int length = file.tellg();
     file.seekg (0, file.beg);
 
+    // get file name, place on the first line
+    std::string file_name = get_file_name(path);
+    length += file_name.length() + 1;
+
+    // allocate memory based on length:
     char *buffer = new char[length];
     printf("Reading data from %s\n", path.c_str());
+
+    // write file name and data to buffer
+    strcpy(buffer, file_name.c_str());
     file.read(buffer, length);
 
     // encode
