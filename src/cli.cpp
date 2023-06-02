@@ -30,21 +30,6 @@ void process_input() {
 
             clear_input_buffer();
             fgets(buf, (sizeof(buf) - 1) * sizeof(char), stdin);
-            // scanf("%s", buf);
-
-            /*
-            for (int i = 0;i < sizeof(buf) / sizeof(char);i++) {
-                if (buf[i] == '\n') {
-                    printf("\\n");
-                } else if (buf[i] == '\0') {
-                    printf("\\0");
-                } else if (buf[i] == ' '){
-                    printf("space");
-                }
-                printf("[SEPARATE]");
-            }
-            printf("\n");
-            */
 
             if (buf[0] == '\n') {
                 decode();

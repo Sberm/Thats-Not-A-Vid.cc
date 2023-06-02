@@ -87,7 +87,8 @@ void writeFrame(cv::VideoWriter &outputVideo, char *buffer, int length) {
         }
     }
 
-    if (index >= 1) {
+	// write the remains
+    if (index > 0) {
         index = 0;
         cv::Mat frame = cv::Mat(FRAME_SIZE, CV_8UC3, buffer_frame);
         // write 2 frames
@@ -101,7 +102,7 @@ void writeFrame(cv::VideoWriter &outputVideo, char *buffer, int length) {
 std::string get_file_name(std::string path) {
     size_t start;
     start = path.find_last_of("/");
-    return path.substr(start, std::string::npos - start);
+    return path.substr(start + 1, std::string::npos - start);
 }
 
 void encode(std::string path) {
@@ -119,17 +120,24 @@ void encode(std::string path) {
     int length = file.tellg();
     file.seekg (0, file.beg);
 
-    // get file name, place on the first line
-    std::string file_name = get_file_name(path);
-    length += file_name.length() + 1;
+	int content_length = length;
+
+    // get file name, place on the first line(append a \n at the end)
+    std::string file_name = get_file_name(path) + '\n';
+
+	// write file length into buffer
+	std::string file_length = std::to_string(length) + '\n';
+
+	length = length + file_name.length() + file_length.length();
 
     // allocate memory based on length:
     char *buffer = new char[length];
     printf("Reading data from %s\n", path.c_str());
 
     // write file name and data to buffer
-    strcpy(buffer, file_name.c_str());
-    file.read(buffer, length);
+    strcpy((char *)buffer, file_name.c_str());
+    strcpy((char *)buffer + sizeof(char) * file_name.length(), file_length.c_str());
+    file.read((char *)buffer + sizeof(char) * file_name.length() + sizeof(char) * file_length.length(), content_length);
 
     // encode
     cv::Mat src;
