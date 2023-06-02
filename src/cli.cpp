@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <string>
 #include "cli.h"
-#include "encode.h"
-#include "decode.h"
 
 std::string get_input() {
     char buffer[256];
@@ -15,6 +11,12 @@ void clear_input_buffer() {
     while ((c = getchar()) != '\n' && c != EOF) { }
 }
 
+void clear_line(int line_num) {
+	while (line_num--) {
+		std::cout << "\033[1A" << "\033[2K";
+	}
+}
+
 void process_input() {
     while (true) {
         printf("Please enter command (encode/decode/exit):\n");
@@ -24,6 +26,8 @@ void process_input() {
             char buf[256];
             scanf("%s", buf);
             encode(std::string(buf));
+			sleep(2);
+			clear_line(6);
         } else if (input == "decode") {
             printf("Please enter the path of the video:\n");
             char buf[256] = {0};
@@ -36,11 +40,14 @@ void process_input() {
             } else {
                 decode(std::string(buf));
             }
-
+			clear_line(6);
+			sleep(2);
         } else if (input == "exit") {
             exit(0);
         } else {
             printf("Command not found\n");
+			sleep(1);
+			clear_line(3);
         }
     }
 }
