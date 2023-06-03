@@ -38,6 +38,13 @@ void process_input() {
             if (buf[0] == '\n') {
                 decode();
             } else {
+				// remove the last \n that was read by fgets
+				for (int i = sizeof(buf) - 1; i >= 0; i--) {
+					if (buf[i] == '\n') {
+						buf[i] = '\0';
+						break;
+					}
+				}
                 decode(std::string(buf));
             }
 			clear_line(6);
