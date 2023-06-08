@@ -16,44 +16,26 @@ void set_pixel(int i, int j, unsigned char* buffer_frame, bool bit) {
     int row = FRAME_SIZE.width;
     int up_left = (i * row + j) * 2 * 3;
 
-    if (!bit) {
-        buffer_frame[up_left + 0] = (unsigned char)0;
-        buffer_frame[up_left + 1] = (unsigned char)0;
-        buffer_frame[up_left + 2] = (unsigned char)0;
+	unsigned bit_to_set = bit ? 255 : 0;
 
-        buffer_frame[up_left + 3 + 0] = (unsigned char)0;
-        buffer_frame[up_left + 3 + 1] = (unsigned char)0;
-        buffer_frame[up_left + 3 + 2] = (unsigned char)0;
+	buffer_frame[up_left + 0] = bit_to_set;
+	buffer_frame[up_left + 1] = bit_to_set;
+	buffer_frame[up_left + 2] = bit_to_set;
 
-        buffer_frame[up_left + row * 3 + 0] = (unsigned char)0;
-        buffer_frame[up_left + row * 3 + 1] = (unsigned char)0;
-        buffer_frame[up_left + row * 3 + 2] = (unsigned char)0;
+	buffer_frame[up_left + 3 + 0] = bit_to_set;
+	buffer_frame[up_left + 3 + 1] = bit_to_set;
+	buffer_frame[up_left + 3 + 2] = bit_to_set;
 
-        buffer_frame[up_left + (row + 1)* 3 + 0] = (unsigned char)0;
-        buffer_frame[up_left + (row + 1)* 3 + 1] = (unsigned char)0;
-        buffer_frame[up_left + (row + 1)* 3 + 2] = (unsigned char)0;
-    } else {
-        buffer_frame[up_left + 0] = (unsigned char)255;
-        buffer_frame[up_left + 1] = (unsigned char)255;
-        buffer_frame[up_left + 2] = (unsigned char)255;
+	buffer_frame[up_left + row * 3 + 0] = bit_to_set;
+	buffer_frame[up_left + row * 3 + 1] = bit_to_set;
+	buffer_frame[up_left + row * 3 + 2] = bit_to_set;
 
-        buffer_frame[up_left + 3 + 0] = (unsigned char)255;
-        buffer_frame[up_left + 3 + 1] = (unsigned char)255;
-        buffer_frame[up_left + 3 + 2] = (unsigned char)255;
-
-        buffer_frame[up_left + row * 3 + 0] = (unsigned char)255;
-        buffer_frame[up_left + row * 3 + 1] = (unsigned char)255;
-        buffer_frame[up_left + row * 3 + 2] = (unsigned char)255;
-
-        buffer_frame[up_left + (row + 1)* 3 + 0] = (unsigned char)255;
-        buffer_frame[up_left + (row + 1)* 3 + 1] = (unsigned char)255;
-        buffer_frame[up_left + (row + 1)* 3 + 2] = (unsigned char)255;
-    }
+	buffer_frame[up_left + (row + 1)* 3 + 0] = bit_to_set;
+	buffer_frame[up_left + (row + 1)* 3 + 1] = bit_to_set;
+	buffer_frame[up_left + (row + 1)* 3 + 2] = bit_to_set;
 }
 
 void writeFrame(cv::VideoWriter &outputVideo, char *buffer, int length) {
-
-    // TODO: finish writing each frame after the buffer is full(640 * 360 * 3)
 
     int mat_size = 640 * 360;
     unsigned char* buffer_frame = new unsigned char[mat_size * 2 * 2 * 3];
@@ -62,7 +44,7 @@ void writeFrame(cv::VideoWriter &outputVideo, char *buffer, int length) {
     std::cout << "\x1b?25l" << std::endl;
 
     for (int i = 0; i < length; i++) {
-
+		// print encode progress
         std::cout
         << "\x1b[1A"
         << "\x1b[K"
@@ -75,19 +57,20 @@ void writeFrame(cv::VideoWriter &outputVideo, char *buffer, int length) {
             set_pixel(px, py, buffer_frame, get_bit(c, 7 - j));
             index++;
         }
+		// if a frame is fully written, write frame to outputVideo
         if (index >= mat_size) {
+			// index of pixels 
             index = 0;
             cv::Mat frame = cv::Mat(FRAME_SIZE, CV_8UC3, buffer_frame);
             // write 2 frames
             outputVideo.write(frame);
             outputVideo.write(frame);
-
             // set buffer_frame to 0
             std::memset(buffer_frame, 0, mat_size * 4 * 3 * sizeof(unsigned char));
         }
     }
 
-	// write the remains
+	// fill up the blank and write the remaining pixels
     if (index > 0) {
         index = 0;
         cv::Mat frame = cv::Mat(FRAME_SIZE, CV_8UC3, buffer_frame);
