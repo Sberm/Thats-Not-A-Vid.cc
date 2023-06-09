@@ -27,6 +27,7 @@ char create_byte(int x, int y, unsigned char* buffer) {
 
 void get_header(cv::Mat& frame, std::vector<char>& buffer, int col, int row, std::string& file_name, std::string& file_length) {
 
+	// get file name and file size
 	if (frame.empty()) {
 		std::cout << "Video source is empty" << std::endl;
 		exit(0);
