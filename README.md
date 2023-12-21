@@ -1,4 +1,4 @@
-## Infinite-Storage-Glitch Knockoff, written in C++.
+## Infinite-Storage-Glitch knockoff, written in C++.
 
 **That's not a vid, this is a vid.**
 
