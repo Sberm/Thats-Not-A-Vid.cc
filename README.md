@@ -12,7 +12,7 @@
 
 ![need_more_context](readme_images/need_more_context.jpeg)
 
-#### *To this:*
+#### *Into this:*
 
 ![output_video](readme_images/output_video.gif)
 
