@@ -20,9 +20,13 @@
 
 #### Using intuitive CLI:
 
+encoding
+
+![encode_video](readme_images/encode_video.gif)
+
+decoding
+
 ![decode_video](readme_images/decode_video.gif)
-
-
 
 ### Running:
 
