@@ -9,4 +9,4 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/src)
 add_executable (Thats-Not-A-Vid src/main.cpp)
 
 target_link_libraries(Thats-Not-A-Vid
-                      cli)
+		      cli)

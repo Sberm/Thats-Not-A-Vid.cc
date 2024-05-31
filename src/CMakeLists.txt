@@ -8,6 +8,6 @@ add_library(decode decode.cpp)
 add_library(cli cli.cpp)
 
 target_link_libraries(cli
-                      PRIVATE decode
-                      PRIVATE encode
-                      PRIVATE ${OpenCV_LIBS})
+		      PRIVATE decode
+		      PRIVATE encode
+		      PRIVATE ${OpenCV_LIBS})
