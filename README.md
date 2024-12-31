@@ -4,8 +4,6 @@ Infinite-Storage-Glitch knockoff, written in C++.
 
 **That's not a vid, this is a vid.**
 
-
-
 ### Convert your files to videos, upload them to streaming services to get unlimited disk storage!
 
 #### *Convert this*:
@@ -41,6 +39,11 @@ git clone https://github.com/Sberm/Thats-Not-A-Vid.git
 2. Build the project, and run
 
 ```bash
+# install opencv and cmake
+# on Ubuntu
+sudo apt install libopencv-dev cmake
+
+# compile
 mkdir build
 cd build
 cmake ..

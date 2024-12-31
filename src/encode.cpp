@@ -11,8 +11,8 @@ inline bool get_bit(char c, int bit)
 	return (c >> bit) & 1;
 }
 
+// 0 -> black, 1 -> white
 void set_pixel(int i, int j, unsigned char* buffer_frame, bool bit) {
-	// 0 -> black, 1 -> white
 	int row = FRAME_SIZE.width;
 	int up_left = (i * row + j) * 2 * 3;
 
@@ -62,9 +62,11 @@ void writeFrame(cv::VideoWriter &outputVideo, char *buffer, int length) {
 			// index of pixels
 			index = 0;
 			cv::Mat frame = cv::Mat(FRAME_SIZE, CV_8UC3, buffer_frame);
+
 			// write 2 frames
 			outputVideo.write(frame);
 			outputVideo.write(frame);
+
 			// set buffer_frame to 0
 			std::memset(buffer_frame, 0, mat_size * 4 * 3 * sizeof(unsigned char));
 		}
@@ -74,6 +76,7 @@ void writeFrame(cv::VideoWriter &outputVideo, char *buffer, int length) {
 	if (index > 0) {
 		index = 0;
 		cv::Mat frame = cv::Mat(FRAME_SIZE, CV_8UC3, buffer_frame);
+
 		// write 2 frames
 		outputVideo.write(frame);
 		outputVideo.write(frame);
